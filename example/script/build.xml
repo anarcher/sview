@@ -1,0 +1,103 @@
+<?xml version="1.0"?>
+<project name="sview-example" basedir=".." default="build"  xmlns:artifact="antlib:org.apache.maven.artifact.ant">
+
+    <path id="sview.cp" location="../target/sview-0.1.jar" />
+
+	<artifact:remoteRepository id="scala-repo" 
+				url="http://scala-tools.org/repo-releases" />
+	<artifact:remoteRepository id="javanet-repo" 
+				url="http://download.java.net/maven/2/" />
+
+	<artifact:dependencies pathId="scala.classpath">
+		<dependency groupId="org.scala-lang"
+				    artifactId="scala-library" 
+					version="2.7.1" />
+		<dependency groupId="org.scala-lang"
+				    artifactId="scala-compiler" 
+					version="2.7.1" />
+		<dependency groupId="org.specs"
+		                    artifactId="specs" 
+				    version="1.3.1" 
+			            scope="test" />
+		<remoteRepository refid="scala-repo" />
+	</artifact:dependencies>
+
+	<artifact:dependencies pathId="dependency.classpath">
+		<remoteRepository refid="javanet-repo" />
+		<dependency groupId="junit" 
+					artifactId="junit"
+					version="4.4" 
+					scope="test"/>
+		<dependency groupId="javax.servlet" 
+					artifactId="servlet-api" 
+					version="2.4" 
+					scope="provided" />
+		<dependency groupId="commons-logging" 
+					artifactId="commons-logging" 
+					version="1.1.1" 
+		/>
+		<dependency groupId="log4j" 
+					artifactId="log4j" 
+					version="1.2.9" 
+		/>
+		<dependency groupId="org.springframework" 
+					artifactId="spring" 
+					version="2.5.5" 
+		/>
+		<dependency groupId="org.springframework" 
+					artifactId="spring-web" 
+					version="2.5.5" 
+		/>
+		<dependency groupId="org.springframework" 
+					artifactId="spring-webmvc" 
+					version="2.5.5" 
+		/>
+	</artifact:dependencies>
+
+	<taskdef resource="scala/tools/ant/antlib.xml">
+  		<classpath refid="scala.classpath"/>
+	</taskdef>
+
+	<import file="jetty.xml" />
+	
+	<target name="init">
+		<mkdir dir="target" />
+		<mkdir dir="tmp" />
+	</target>
+
+	<target name="clean">
+		<delete dir="target/" />
+		<delete dir="tmp/" />
+	</target>
+
+	<target name="build" depends="init,build-java,build-scala">
+	</target>
+    <target name="build-java">
+		<javac destdir="target" source="1.5" target="1.5" debug="true"
+ 	                deprecation="false" optimize="false" failonerror="true" encoding="UTF-8">
+                    <src path="src" />
+		    <classpath refid="dependency.classpath" />
+		    <classpath refid="scala.classpath" />
+            <classpath refid="sview.cp" />
+		</javac>	
+   </target>
+   <target name="build-scala">
+		<scalac srcdir="src" destdir="target" force="changed">
+            <include name="**/*.scala"/>
+		    <classpath refid="dependency.classpath" />
+		    <classpath refid="scala.classpath" />
+            <classpath refid="sview.cp" /> 
+        </scalac>
+   </target>
+
+	<target name="run" depends="build">
+		<jetty-start 
+			webapp-name="webapp" 
+			webapp-dir="webapp/"
+			envXml="jetty.env.xml"
+			port="9090"
+	 	/>
+	</target>
+
+</project>
+

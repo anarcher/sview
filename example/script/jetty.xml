@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<project name="scala-ant-project/jetty" basedir=".." default="run"  
+			xmlns:artifact="antlib:org.apache.maven.artifact.ant">
+
+	<artifact:dependencies pathId="jetty.classpath">
+		<dependency groupId="org.mortbay.jetty"
+					artifactId="jetty"
+					version="6.1.11" />
+		<dependency groupId="org.mortbay.jetty"
+					artifactId="jetty-naming"
+					version="6.1H.10" />
+		<dependency groupId="org.mortbay.jetty"
+					artifactId="jetty-util"
+					version="6.1.11" />
+		<dependency groupId="org.mortbay.jetty"
+					artifactId="jetty-ant"
+					version="6.1.11" />
+		<dependency groupId="org.mortbay.jetty"
+					artifactId="servlet-api-2.5"
+					version="6.1H.10" />
+		<dependency groupId="org.mortbay.jetty"
+					artifactId="jsp-api-2.1"
+					version="6.1H.10" />
+		<dependency groupId="org.mortbay.jetty"
+					artifactId="jsp-2.1"
+					version="6.1H.10" />
+
+	</artifact:dependencies>
+
+	<path id="jetty.cp">
+		<path refid="jetty.classpath" />
+		<path refid="dependency.classpath" />
+		<path refid="scala.classpath" />
+        <path refid="sview.cp" />
+	</path>
+
+	<taskdef classpathref="jetty.cp" 
+				resource="tasks.properties" loaderref="jetty.loader" />
+	<typedef name="selectChannelConnector"
+				classname="org.mortbay.jetty.nio.SelectChannelConnector"
+				classpathref="jetty.classpath" loaderref="jetty.loader" />	
+
+	<macrodef name="jetty-start">
+		<attribute name="webapp-name" default="" />
+		<attribute name="webapp-dir" default="'" />
+		<attribute name="envXml" default="" />
+		<attribute name="port" default="" />
+		<sequential>
+			<mkdir dir="tmp/@{webapp-name}" />
+			<jetty  
+				tempDirectory="tmp/@{webapp-name}">
+			  <systemProperties>
+			<!--
+				<systemProperty name="jetty.home" value="server/jetty"/>
+			-->
+				<systemProperty name="catalina.home" value=".."/>
+				<systemProperty name="jetty.port" value="@{port}" />
+			  </systemProperties>
+			  <connectors>
+				<selectChannelConnector port="@{port}" maxIdleTime="30000" Acceptors="1" />
+			  </connectors>
+			  <webapp 
+					name="@{webapp-name}" 
+					contextPath="/" 
+					warfile="@{webapp-dir}" 
+					scanIntervalSeconds="2" 
+					jettyEnvXml="script/@{envXml}">
+						<scanTargets dir="target">
+						</scanTargets>
+						<classes dir="target" includes="*.class" />
+						<!--
+						<classes dir="@{webapp-dir}WEB-INF/classes"  />
+						-->
+			  </webapp>
+			</jetty>
+		</sequential>
+	</macrodef>
+	
+</project>
