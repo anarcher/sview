@@ -7,17 +7,17 @@ import sview._
 
 @Component
 @Scope("prototype")
-class CommonLayout(b:ViewBinding,v:SView) extends SViewComposite(b,v) with SHtmlView {
+class CommonLayout(b:ViewBinding,v:SView) extends SViewComposite(b,v) {
 
     val foot = <p> FOOT </p>
 
     def content()  = {
         <html>
         <head>
-            { v.content \ "head" }
+            { v.content \ "head" \ "_" }
         </head>
         <body>
-            { v.content \ "body" }
+            { v.content \ "body" \ "_" }
             <p> this is common layout </p>
             { foot }
         </body>
