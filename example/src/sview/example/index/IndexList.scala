@@ -5,26 +5,26 @@ import org.springframework.context.annotation.Scope
 
 import sview._
 
-import scala.xml.PrettyPrinter 
-import scala.xml._ 
-
 @Component
 @Scope("prototype")
-class IndexList(req:ViewBinding) extends SContentView(req) {
+class IndexList(b:ViewBinding) extends SViewContent(b){
 
-    val head = <head>
-        <title> index list </title>
-    </head>;
+    def head()  = {
+        <title> this is index </title>
+    }
 
-    def content()  = {
-        val m : Model = req.getModels.get("model").asInstanceOf[Model]
-
-        val content = <html>
-            { head } 
-        <p> this is INDEX LIST! </p>
-        </html>;
-
-        Console.println(content)
-		content
+    def content() = {
+       val m : Model = b.getModels.get("model").asInstanceOf[Model]
+    <html>
+    <head>
+        { head }
+    </head>
+    <body>
+    <div>
+        <div> aaa </div>
+        <div> { m.getName } </div>
+    </div>
+    </body>
+    </html>
     }
 }

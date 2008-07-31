@@ -17,7 +17,7 @@ public class IndexController
 
         models.addAttribute("model",model);
 		
-        return "indexListHtml:commonLayout";
+        return "indexList:commonLayout";
     }
 
 }
