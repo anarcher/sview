@@ -1,7 +1,2 @@
-A skeleton project structure for developing with java,scala using ant with maven2
+SView : A S(imple,cala) View for Spring MV(iew)C.
 
-
-http://maven.apache.org/ant-tasks.html
-http://scriptlandia.blogspot.com/2007/04/how-to-compile-and-run-scala-program.html
-
-* ant/lib/maven-ant-tasks-2.0.9.jar
