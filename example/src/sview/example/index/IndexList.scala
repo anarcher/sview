@@ -15,14 +15,16 @@ class IndexList(b:ViewBinding) extends SViewContent(b){
 
     def content() = {
        val m : Model = b.getModels.get("model").asInstanceOf[Model]
+       val df : java.text.DateFormat = java.text.DateFormat.getDateInstance() 
     <html>
     <head>
         { head }
     </head>
     <body>
     <div>
-        <div> aaa </div>
+        <div> this is index List ! </div>
         <div> { m.getName } </div>
+        <div> today is { df.format(new java.util.Date()) } </div>
     </div>
     </body>
     </html>
