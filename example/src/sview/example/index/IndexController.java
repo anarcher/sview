@@ -20,6 +20,19 @@ public class IndexController
         return "sview:indexList:sampleLayout";
     }
 
+    @RequestMapping("/index2.sview")
+    public String indexScala2(ModelMap models) {
+        
+        Model model = new Model();
+        model.setName("this is model. ");
+
+        models.addAttribute("model",model);
+		
+        return "sview:indexList";
+    }
+
+
+
     @RequestMapping("/index.jsp")
     public String indexJsp(ModelMap models) {
         
