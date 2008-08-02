@@ -9,16 +9,27 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class IndexController
 {
-    @RequestMapping("/index.action")
-    public String index(ModelMap models) {
+    @RequestMapping("/index.sview")
+    public String indexScala(ModelMap models) {
         
         Model model = new Model();
         model.setName("this is model. ");
 
         models.addAttribute("model",model);
 		
-        return "indexList:sampleLayout";
+        return "sview:indexList:sampleLayout";
     }
+
+    @RequestMapping("/index.jsp")
+    public String indexJsp(ModelMap models) {
+        
+        Model model = new Model();
+        model.setName("this is model. ");
+        models.addAttribute("model",model);
+		
+        return "indexList";
+    }
+
 
 }
 

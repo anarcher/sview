@@ -12,45 +12,43 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.View; 
 
 public class ViewAdapter implements View {
-    private final static String DEFAULT_DELIMITER = ":";
-    protected final static String DEFAULT_CONTENT_TYPE = "text/html";
+    private final static String DEFAULT_CONTENT_TYPE = "text/html";
+    private String sviewName; 
+    private SViewFactory sviewFactory;
+    private boolean isPrettyPrint = true;
+    private String contentType;
 
-    private String viewName; 
-    private String compositeViewName;
-    private WebApplicationContext ctx;
-
-    public ViewAdapter(String viewName,WebApplicationContext ctx) {
-        this.ctx = ctx;
-        this.viewName = viewName;
-        String[] str = viewName.split(DEFAULT_DELIMITER);
-        if(str.length >=1 && StringUtils.hasText(str[0])) this.viewName = str[0];
-        if(str.length >=2 && StringUtils.hasText(str[1])) this.compositeViewName = str[1];
+    public ViewAdapter() {
     }
 
+    public void setSViewName(String sviewName) {
+        this.sviewName = sviewName;
+    }
+    public void setSViewFactory(SViewFactory sviewFactory) {
+        this.sviewFactory = sviewFactory;
+    }
+    public void setPrettyPrint(boolean isPrettyPrint) {
+        this.isPrettyPrint = isPrettyPrint;
+    }
+
+
     public String getContentType() {
-        return DEFAULT_CONTENT_TYPE; 
+        return contentType;
     }
 
     public void render(Map model, HttpServletRequest request,HttpServletResponse response) throws Exception {
 
         ViewBinding viewBinding = new ViewBinding((Map<String,Object>) model,request,response);
 
-        String result = null;
-        SView view = (SView) ctx.getBean(viewName,new Object[] {viewBinding}); 
+        SView sview = sviewFactory.getSView(sviewName,viewBinding);
 
-        if(StringUtils.hasText(compositeViewName)) { 
-           SView compositeView = (SView) 
-                            ctx.getBean(compositeViewName,new Object[] {viewBinding,view});
-
-           result = SViewRenderer.render(compositeView);
-        }
-        else {
-           result = SViewRenderer.render(view);
-        }
-
-        response.setContentType(getContentType());
+        this.contentType = sview.contenttype();
+        SViewWriteRenderer renderer = new SViewWriteRenderer(); 
+        sview.render(renderer);
+        response.setContentType(this.contentType);
         PrintWriter out = response.getWriter();
-        out.print(result);  
+        renderer.print(out,isPrettyPrint);
+        out.close();
     }
 
 }

@@ -1,10 +1,10 @@
-package sview
+package sview;
 
-import scala.xml.PrettyPrinter 
+import scala.xml._
 
-object SViewRenderer {
-    def render(view : SView) : String  = {
-//		view.content.toString
-        new PrettyPrinter(80 /*width */,3 /*indent */).format(view.content)
-    }
+trait SViewRenderer {
+    def setDocType(docType : String)
+    def setContentType(contentType : String)
+    def setContent(content : Elem)
 }
+

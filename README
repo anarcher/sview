@@ -1,2 +1,10 @@
 SView : A S(imple,cala) View for Spring MV(iew)C.
 
+SViewFactory : AbstractFactory 
+SViewSpringBeanFactory : ConcreteFactory
+SViewRenderer : AbstractBuilder
+SViewWriteRenderer : ConcreteBuilder
+ViewBinding : Parameter Object (IP)
+ViewAdaptor : Adaptor
+SView : Bridge
+
