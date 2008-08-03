@@ -7,7 +7,7 @@ import sview._
 
 @Component
 @Scope("prototype")
-class IndexList(b:ViewBinding) extends SViewContent(b){
+class Index(b:ViewBinding) extends SViewContent(b){
 
     def head()  = {
         <title> this is index </title>

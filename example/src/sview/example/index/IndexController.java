@@ -13,11 +13,11 @@ public class IndexController
     public String indexScala(ModelMap models) {
         
         Model model = new Model();
-        model.setName("this is model. ");
+        model.setName("HELLO WORLD");
 
         models.addAttribute("model",model);
 		
-        return "sview:indexList:sampleLayout";
+        return "sview:index:sampleLayout";
     }
 
     @RequestMapping("/index2.sview")
@@ -28,7 +28,7 @@ public class IndexController
 
         models.addAttribute("model",model);
 		
-        return "sview:indexList";
+        return "sview:index";
     }
 
 
@@ -40,7 +40,7 @@ public class IndexController
         model.setName("this is model. ");
         models.addAttribute("model",model);
 		
-        return "indexList";
+        return "index";
     }
 
 
