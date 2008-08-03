@@ -17,7 +17,7 @@
 <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" />
 <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter"/>
 
-<bean id="sviewBeanNameResolver" class="sview.SViewBeanNameResolver">
+<bean id="sviewBeanViewNameResolver" class="sview.SViewBeanNameViewResolver">
     <property name="order" value="1" />
     <property name="prettyPrint" value="true" />
     <property name="sviewFactoryBeanName" value="sviewSpringBeanFactory" />
